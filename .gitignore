@@ -1,0 +1,33 @@
+# Configuração local com dados sensíveis (caminhos, destinatários, etc.)
+config.py
+
+config.py
+Dados/API_ig.py
+Dados/SQLQUERY_ig.py
+
+Arquivos/Assinatura.msg
+Arquivos/Persistencia.json
+
+Arquivos/Emails
+
+
+venv/
+.venv/
+env/
+
+
+__pycache__/
+*.pyc
+*.pyo
+
+
+*.msg
+itens_enviados.json
+
+
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
