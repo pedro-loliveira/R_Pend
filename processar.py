@@ -7,9 +7,9 @@ from config import MAP_PROCESSOS
 
 def tratar_processos_api(df_api):
     cols = [
-        "prc-1-n",
-        "prc-2-n",
-        "prc-3-n",
+        "processo-1-nome",
+        "processo-2-nome",
+        "processo-3-nome",
     ]
     cols_existentes = [c for c in cols if c in df_api.columns]
 
@@ -18,9 +18,9 @@ def tratar_processos_api(df_api):
             MAP_PROCESSOS)
 
     df_api = df_api.rename(columns={
-        "prc-1-n": "prc1",
-        "prc-2-n": "prc2",
-        "prc-3-n": "prc3",
+        "processo-1-nome": "prc1",
+        "processo-2-nome": "prc2",
+        "processo-3-nome": "prc3",
     })
 
     return df_api
@@ -57,12 +57,13 @@ def tratar_colunas(df_api, df_sql):
             return trata_data(dt_ter, "ENC")
         elif dt_efet not in ("00000000", "0", "", None):
             return trata_data(dt_efet, "SEPARADO")
-        return "SEPARACÃO PEND."
+        return "SEPARACAO PEND."
 
     df["STATUS_SAIDA"] = df.apply(calcula_status_saida, axis=1)
 
-    mask = df["STATUS_SISTEMA"].str.contains("Fin.:", regex=False, na=True)
-    mask = mask & ~df["STATUS_SAIDA"].str.contains("ENC:", na=True)
+    mask = df["STATUS_SISTEMA"].str.contains("Prod.:", regex=False, na=False)
+    mask = mask & ~df["STATUS_SAIDA"].str.contains(
+        "ENC:", regex=False, na=False)
     df = df.loc[mask]
 
     colunas = [

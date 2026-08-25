@@ -82,7 +82,7 @@ def gerar_tabela_html(df, colunas):
             cor_texto = CORES["texto_padrao"]
             conteudo = html.escape(valor)
 
-            if chave == "STATUS_SISTEMA" and valor == "Erro!":
+            if chave == "STATUS_SISTEMA" and valor == "ERRO!":
                 cor_texto = CORES["texto_zerado"]
             elif chave in ("tempo", "realizado") and _valor_e_zero(bruto):
                 cor_texto = CORES["texto_zerado"]
@@ -118,11 +118,12 @@ def criar_email(df, assinatura_path, caminho_email):
     mail = outlook.CreateItemFromTemplate(assinatura_path)
     mail.Subject = "Itens Finalizados Pendentes"
 
-    df_pendencias = df[df["STATUS_SISTEMA"] != "Erro!"]
-    df_problemas = df[df["STATUS_SISTEMA"] == "Erro!"]
+    df_pendencias = df[df["STATUS_SISTEMA"] != "ERRO!"]
+    df_problemas = df[df["STATUS_SISTEMA"] == "ERRO!"]
     total_itens = len(df)
-    nao_pagas = df["STATUS_SAIDA"].eq("Separacao Pend.").sum()
-    pagas = df["STATUS_SAIDA"].str.startswith("P:", na=False).sum()
+    nao_pagas = df["STATUS_SAIDA"].eq("SEPARACAO PEND.").sum()
+    pagas = df["STATUS_SAIDA"].str.startswith(
+        "SEPARADO:", na=False).sum()
     zeradas = len(df_problemas)
     repetidos = int(df.get("ITEM_REPETIDO", pd.Series(dtype=bool)).sum())
 
@@ -131,7 +132,7 @@ def criar_email(df, assinatura_path, caminho_email):
         f"color:{CORES['texto_padrao']}; margin-bottom:14px;\">"
         f"{saudacao()},<br>"
         f"Relatorio de material produzido com pendência de atualização sistêmica.<br>"
-        f"Materiais com status <b>\"Erro!\"</b> foram apontados com falha e necessita de atenção.</div><br>"
+        f"Materiais com status <b>\"ERRO!\"</b> foram apontados com falha e necessita de atenção.</div><br>"
     )
 
     legenda = (
